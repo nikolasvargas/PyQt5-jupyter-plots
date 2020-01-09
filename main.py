@@ -50,7 +50,7 @@ class Player(Sprite):
 
 
 pygame.init()
-screen: Surface = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_HEIGHT))
+screen: Surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 player = Player()
 running: bool = True
