@@ -24,8 +24,17 @@ class Player(Sprite):
         self.surf = Surface((75, 75))
         self.surf.fill((255, 255, 255))
         self.rect = self.surf.get_rect()
-        self.allowed_moviments = [K_UP, K_DOWN, K_LEFT, K_RIGHT]
         self.window_bounds = 0
+
+    def _check_bounds(self) -> None:
+        if self.rect.left < self.window_bounds:
+            self.rect.left = self.window_bounds
+        if self.rect.right > SCREEN_WIDTH:
+            self.rect.right = SCREEN_WIDTH
+        if self.rect.top <= self.window_bounds:
+            self.rect.top = self.window_bounds
+        if self.rect.bottom >= SCREEN_HEIGHT:
+            self.rect.bottom = SCREEN_HEIGHT
 
     def update(self, key: dict) -> None:
         if key[K_UP]:
@@ -37,14 +46,7 @@ class Player(Sprite):
         if key[K_RIGHT]:
             self.rect.move_ip(5, 0)
 
-        if self.rect.left < self.window_bounds:
-            self.rect.left = self.window_bounds
-        if self.rect.right > SCREEN_WIDTH:
-            self.rect.right = SCREEN_WIDTH
-        if self.rect.top <= self.window_bounds:
-            self.rect.top = self.window_bounds
-        if self.rect.bottom >= SCREEN_HEIGHT:
-            self.rect.bottom = SCREEN_HEIGHT
+        self._check_bounds()
 
 
 pygame.init()
