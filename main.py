@@ -3,7 +3,14 @@
 """Import and initialize pygame lib"""
 import pygame
 from pygame.locals import K_ESCAPE, KEYDOWN, QUIT
-from chars import Player, Enemy, SCREEN_WIDTH, SCREEN_HEIGHT
+from chars import Player, Enemy
+from configparser import ConfigParser
+
+cfg = ConfigParser()
+cfg.read('screen.ini')
+
+SCREEN_WIDTH = int(cfg['DEFAULT']['SCREEN_WIDTH'])
+SCREEN_HEIGHT = int(cfg['DEFAULT']['SCREEN_HEIGHT'])
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))

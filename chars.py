@@ -2,10 +2,13 @@ import random
 from pygame import image
 from pygame.sprite import Sprite
 from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT, RLEACCEL
+from configparser import ConfigParser
 
+cfg = ConfigParser()
+cfg.read('screen.ini')
 
-SCREEN_WIDTH: int = 800
-SCREEN_HEIGHT: int = 600
+SCREEN_WIDTH = int(cfg['DEFAULT']['SCREEN_WIDTH'])
+SCREEN_HEIGHT = int(cfg['DEFAULT']['SCREEN_HEIGHT'])
 
 
 class Player(Sprite):
