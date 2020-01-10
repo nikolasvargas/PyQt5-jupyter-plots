@@ -7,11 +7,11 @@ from chars import Player, Enemy
 from scenery import Cloud
 from configparser import ConfigParser
 
-cfg = ConfigParser()
-cfg.read('screen.ini')
+_cfg = ConfigParser()
+_cfg.read('screen.ini')
 
-SCREEN_WIDTH = int(cfg['DEFAULT']['SCREEN_WIDTH'])
-SCREEN_HEIGHT = int(cfg['DEFAULT']['SCREEN_HEIGHT'])
+SCREEN_WIDTH = int(_cfg['DEFAULT']['SCREEN_WIDTH'])
+SCREEN_HEIGHT = int(_cfg['DEFAULT']['SCREEN_HEIGHT'])
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
