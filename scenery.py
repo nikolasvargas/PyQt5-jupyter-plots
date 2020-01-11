@@ -5,10 +5,10 @@ from pygame.locals import RLEACCEL
 from configparser import ConfigParser
 
 _cfg = ConfigParser()
-_cfg.read('screen.ini')
+_cfg.read('game_config.ini')
 
-SCREEN_WIDTH = int(_cfg['DEFAULT']['SCREEN_WIDTH'])
-SCREEN_HEIGHT = int(_cfg['DEFAULT']['SCREEN_HEIGHT'])
+SCREEN_WIDTH = int(_cfg['SCREEN']['WIDTH'])
+SCREEN_HEIGHT = int(_cfg['SCREEN']['HEIGHT'])
 
 
 class Cloud(Sprite):
