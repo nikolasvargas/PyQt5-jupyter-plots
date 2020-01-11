@@ -1,5 +1,5 @@
 import random
-from pygame import image
+from pygame import image, Rect, Surface
 from pygame.sprite import Sprite
 from pygame.locals import RLEACCEL
 from configparser import ConfigParser
@@ -13,18 +13,25 @@ SCREEN_HEIGHT = int(_cfg['SCREEN']['HEIGHT'])
 
 
 class Cloud(Sprite):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.surf = image.load("assets/cloud.png").convert()
+
+        self.surf: Surface = image.load("assets/cloud.png").convert()
         self.surf.set_colorkey(COLORS['TRANSPARENT'], RLEACCEL)
-        self.rect = self.surf.get_rect(
+
+        self.rect: Rect = self.surf.get_rect(
             center=(
                 random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
                 random.randint(0, SCREEN_HEIGHT)
             )
         )
 
-    def update(self):
+    def update(self) -> None:
         self.rect.move_ip(-5, 0)
         if self.rect.right < 0:
             self.kill()
+
+
+class Points(Sprite):
+    def __init__(self) -> None:
+        super().__init__()

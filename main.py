@@ -2,35 +2,41 @@
 # -*- coding: utf-8 -*-
 """Import and initialize pygame lib"""
 import pygame
+from pygame import Surface
+from pygame.time import Clock
+from pygame.sprite import Group
 from pygame.locals import K_ESCAPE, KEYDOWN, QUIT
 from chars import Player, Enemy
 from scenery import Cloud
 from configparser import ConfigParser
 
-_cfg = ConfigParser()
+_cfg: ConfigParser = ConfigParser()
 _cfg.read('game_config.ini')
 
-SCREEN_WIDTH = int(_cfg['SCREEN']['WIDTH'])
-SCREEN_HEIGHT = int(_cfg['SCREEN']['HEIGHT'])
+SCREEN_WIDTH: int = int(_cfg['SCREEN']['WIDTH'])
+SCREEN_HEIGHT: int = int(_cfg['SCREEN']['HEIGHT'])
 
 
-def draw() -> None:
+def game_run() -> int:
     pygame.init()
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    clock = pygame.time.Clock()
+    screen: Surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock: Clock = Clock()
 
-    ADD_ENEMY = pygame.USEREVENT + 1
+    ADD_ENEMY: int = pygame.USEREVENT + 1
     pygame.time.set_timer(ADD_ENEMY, 250)
-    ADD_CLOUD = pygame.USEREVENT + 2
+
+    ADD_CLOUD: int = pygame.USEREVENT + 2
     pygame.time.set_timer(ADD_CLOUD, 1000)
 
-    player = Player()
-    enemies = pygame.sprite.Group()
-    clouds = pygame.sprite.Group()
-    all_sprites = pygame.sprite.Group()
+    player: Player = Player()
+
+    enemies: Group = Group()
+    clouds: Group = Group()
+    all_sprites: Group = Group()
+
     all_sprites.add(player)
 
-    running = True
+    running: bool = True
 
     while running:
         for event in pygame.event.get():
@@ -49,7 +55,7 @@ def draw() -> None:
                 enemies.add(new_cloud)
                 all_sprites.add(new_cloud)
 
-        key_pressed = pygame.key.get_pressed()
+        key_pressed: dict = pygame.key.get_pressed()
         player.update(key_pressed)
         enemies.update()
         clouds.update()
@@ -68,7 +74,8 @@ def draw() -> None:
         clock.tick(30)
 
     pygame.quit()
+    return 0
 
 
 if __name__ == "__main__":
-    draw()
+    game_run()

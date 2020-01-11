@@ -1,5 +1,5 @@
 import random
-from pygame import image
+from pygame import image, Rect, Surface
 from pygame.sprite import Sprite
 from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT, RLEACCEL
 from configparser import ConfigParser
@@ -15,10 +15,12 @@ SCREEN_HEIGHT = int(_cfg['SCREEN']['HEIGHT'])
 class Player(Sprite):
     def __init__(self) -> None:
         super().__init__()
-        self.surf = image.load("assets/jet.png").convert()
+
+        self.surf: Surface = image.load("assets/jet.png").convert()
         self.surf.set_colorkey(COLORS['WHITE'], RLEACCEL)
-        self.rect = self.surf.get_rect()
-        self.window_bounds = 0
+
+        self.rect: Rect = self.surf.get_rect()
+        self.window_bounds: int = 0
 
     def _check_bounds(self) -> None:
         if self.rect.left < self.window_bounds:
@@ -46,15 +48,16 @@ class Player(Sprite):
 class Enemy(Sprite):
     def __init__(self):
         super().__init__()
-        self.surf = image.load("assets/missile.png").convert()
+
+        self.surf: Surface = image.load("assets/missile.png").convert()
         self.surf.set_colorkey(COLORS['WHITE'], RLEACCEL)
-        self.rect = self.surf.get_rect(
+        self.rect: Rect = self.surf.get_rect(
             center=(
                 random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
                 random.randint(0, SCREEN_HEIGHT)
             )
         )
-        self.speed = random.randint(5, 20) * -1
+        self.speed: int = random.randint(5, 20) * -1
 
     def update(self) -> None:
         self.rect.move_ip(self.speed, 0)
