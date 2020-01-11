@@ -13,56 +13,62 @@ _cfg.read('game_config.ini')
 SCREEN_WIDTH = int(_cfg['SCREEN']['WIDTH'])
 SCREEN_HEIGHT = int(_cfg['SCREEN']['HEIGHT'])
 
-pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-clock = pygame.time.Clock()
 
-ADD_ENEMY = pygame.USEREVENT + 1
-pygame.time.set_timer(ADD_ENEMY, 250)
-ADD_CLOUD = pygame.USEREVENT + 2
-pygame.time.set_timer(ADD_CLOUD, 1000)
+def draw() -> None:
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
 
-player = Player()
-enemies = pygame.sprite.Group()
-clouds = pygame.sprite.Group()
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
+    ADD_ENEMY = pygame.USEREVENT + 1
+    pygame.time.set_timer(ADD_ENEMY, 250)
+    ADD_CLOUD = pygame.USEREVENT + 2
+    pygame.time.set_timer(ADD_CLOUD, 1000)
 
-running = True
+    player = Player()
+    enemies = pygame.sprite.Group()
+    clouds = pygame.sprite.Group()
+    all_sprites = pygame.sprite.Group()
+    all_sprites.add(player)
 
-while running:
-    for event in pygame.event.get():
-        exit_key: bool = (
-            event.type == QUIT or
-            event.type == KEYDOWN and event.key == K_ESCAPE
-        )
-        if exit_key:
+    running = True
+
+    while running:
+        for event in pygame.event.get():
+            exit_key: bool = (
+                event.type == QUIT or
+                event.type == KEYDOWN and event.key == K_ESCAPE
+            )
+            if exit_key:
+                running = False
+            elif event.type == ADD_ENEMY:
+                new_enemy = Enemy()
+                enemies.add(new_enemy)
+                all_sprites.add(new_enemy)
+            elif event.type == ADD_CLOUD:
+                new_cloud = Cloud()
+                enemies.add(new_cloud)
+                all_sprites.add(new_cloud)
+
+        key_pressed = pygame.key.get_pressed()
+        player.update(key_pressed)
+        enemies.update()
+        clouds.update()
+
+        # Fill the background with white color
+        screen.fill((135, 206, 250))
+
+        for entity in all_sprites:
+            screen.blit(entity.surf, entity.rect)
+
+        if pygame.sprite.spritecollideany(player, enemies):
+            player.kill()
             running = False
-        elif event.type == ADD_ENEMY:
-            new_enemy = Enemy()
-            enemies.add(new_enemy)
-            all_sprites.add(new_enemy)
-        elif event.type == ADD_CLOUD:
-            new_cloud = Cloud()
-            enemies.add(new_cloud)
-            all_sprites.add(new_cloud)
 
-    key_pressed = pygame.key.get_pressed()
-    player.update(key_pressed)
-    enemies.update()
-    clouds.update()
+        pygame.display.flip()
+        clock.tick(30)
 
-    # Fill the background with white color
-    screen.fill((135, 206, 250))
+    pygame.quit()
 
-    for entity in all_sprites:
-        screen.blit(entity.surf, entity.rect)
 
-    if pygame.sprite.spritecollideany(player, enemies):
-        player.kill()
-        running = False
-
-    pygame.display.flip()
-    clock.tick(30)
-
-pygame.quit()
+if __name__ == "__main__":
+    draw()
