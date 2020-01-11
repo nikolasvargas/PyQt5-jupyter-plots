@@ -3,6 +3,7 @@ from pygame import image
 from pygame.sprite import Sprite
 from pygame.locals import K_UP, K_DOWN, K_LEFT, K_RIGHT, RLEACCEL
 from configparser import ConfigParser
+from assets.colors import COLORS
 
 _cfg = ConfigParser()
 _cfg.read('game_config.ini')
@@ -15,7 +16,7 @@ class Player(Sprite):
     def __init__(self) -> None:
         super().__init__()
         self.surf = image.load("assets/jet.png").convert()
-        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        self.surf.set_colorkey(COLORS['WHITE'], RLEACCEL)
         self.rect = self.surf.get_rect()
         self.window_bounds = 0
 
@@ -46,7 +47,7 @@ class Enemy(Sprite):
     def __init__(self):
         super().__init__()
         self.surf = image.load("assets/missile.png").convert()
-        self.surf.set_colorkey((255, 255, 255), RLEACCEL)
+        self.surf.set_colorkey(COLORS['WHITE'], RLEACCEL)
         self.rect = self.surf.get_rect(
             center=(
                 random.randint(SCREEN_WIDTH + 20, SCREEN_WIDTH + 100),
