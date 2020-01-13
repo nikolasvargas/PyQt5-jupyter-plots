@@ -67,8 +67,9 @@ def game_run() -> int:
             screen.blit(entity.surf, entity.rect)
 
         if pygame.sprite.spritecollideany(player, enemies):
-            player.reset_position()
-            # running = False
+            end_game = player.reset()
+            if end_game:
+                running = False
 
         pygame.display.flip()
         clock.tick(60)

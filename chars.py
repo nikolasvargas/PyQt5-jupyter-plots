@@ -47,6 +47,14 @@ class Player(Sprite):
 
         self._check_bounds()
 
+    def reset(self) -> int:
+        if not bool(self.lives):
+            return 1
+
+        self.lives = self.lives - 1
+        self.reset_position()
+        return 0
+
     def reset_position(self) -> None:
         self.rect = self.original_pos
 
