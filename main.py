@@ -52,7 +52,7 @@ def game_run() -> int:
                 all_sprites.add(new_enemy)
             elif event.type == ADD_CLOUD:
                 new_cloud = Cloud()
-                enemies.add(new_cloud)
+                clouds.add(new_cloud)
                 all_sprites.add(new_cloud)
 
         key_pressed: dict = pygame.key.get_pressed()
@@ -67,11 +67,11 @@ def game_run() -> int:
             screen.blit(entity.surf, entity.rect)
 
         if pygame.sprite.spritecollideany(player, enemies):
-            player.kill()
-            running = False
+            player.reset_position()
+            # running = False
 
         pygame.display.flip()
-        clock.tick(30)
+        clock.tick(60)
 
     pygame.quit()
     return 0

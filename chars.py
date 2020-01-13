@@ -20,7 +20,10 @@ class Player(Sprite):
         self.surf.set_colorkey(COLORS['WHITE'], RLEACCEL)
 
         self.rect: Rect = self.surf.get_rect()
+        self.original_pos: Rect = self.surf.get_rect()
+
         self.window_bounds: int = 0
+        self.lives: int = int(_cfg['PLAYER']['LIVES'])
 
     def _check_bounds(self) -> None:
         if self.rect.left < self.window_bounds:
@@ -35,14 +38,17 @@ class Player(Sprite):
     def update(self, key: dict) -> None:
         if key[K_UP]:
             self.rect.move_ip(0, -5)
-        if key[K_DOWN]:
+        elif key[K_DOWN]:
             self.rect.move_ip(0, 5)
-        if key[K_LEFT]:
+        elif key[K_LEFT]:
             self.rect.move_ip(-5, 0)
-        if key[K_RIGHT]:
+        elif key[K_RIGHT]:
             self.rect.move_ip(5, 0)
 
         self._check_bounds()
+
+    def reset_position(self) -> None:
+        self.rect = self.original_pos
 
 
 class Enemy(Sprite):
